@@ -15,6 +15,7 @@ import { Route as BatchesRouteImport } from './routes/batches'
 import { Route as ConstraintsRouteImport } from './routes/constraints'
 import { Route as FacultyRouteImport } from './routes/faculty'
 import { Route as GenerateRouteImport } from './routes/generate'
+import { Route as ResearchRouteImport } from './routes/research'
 import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as SubjectsRouteImport } from './routes/subjects'
 import { Route as TimetablesIndexRouteImport } from './routes/timetables.index'
@@ -50,6 +51,11 @@ const GenerateRoute = GenerateRouteImport.update({
   path: '/generate',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RoomsRoute = RoomsRouteImport.update({
   id: '/rooms',
   path: '/rooms',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
   '/generate': typeof GenerateRoute
+  '/research': typeof ResearchRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
   '/timetables/$id': typeof TimetablesIdRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
   '/generate': typeof GenerateRoute
+  '/research': typeof ResearchRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
   '/timetables/$id': typeof TimetablesIdRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
   '/generate': typeof GenerateRoute
+  '/research': typeof ResearchRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
   '/timetables/$id': typeof TimetablesIdRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/constraints'
     | '/faculty'
     | '/generate'
+    | '/research'
     | '/rooms'
     | '/subjects'
     | '/timetables/$id'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/constraints'
     | '/faculty'
     | '/generate'
+    | '/research'
     | '/rooms'
     | '/subjects'
     | '/timetables/$id'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/constraints'
     | '/faculty'
     | '/generate'
+    | '/research'
     | '/rooms'
     | '/subjects'
     | '/timetables/$id'
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   ConstraintsRoute: typeof ConstraintsRoute
   FacultyRoute: typeof FacultyRoute
   GenerateRoute: typeof GenerateRoute
+  ResearchRoute: typeof ResearchRoute
   RoomsRoute: typeof RoomsRoute
   SubjectsRoute: typeof SubjectsRoute
   TimetablesIdRoute: typeof TimetablesIdRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GenerateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rooms': {
       id: '/rooms'
       path: '/rooms'
@@ -242,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConstraintsRoute: ConstraintsRoute,
   FacultyRoute: FacultyRoute,
   GenerateRoute: GenerateRoute,
+  ResearchRoute: ResearchRoute,
   RoomsRoute: RoomsRoute,
   SubjectsRoute: SubjectsRoute,
   TimetablesIdRoute: TimetablesIdRoute,
