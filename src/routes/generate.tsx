@@ -57,7 +57,10 @@ function GeneratePage() {
   const lessonCount = data.isLoading ? 0 : buildLessons(input).length;
 
   const run = async () => {
-    if (!selected.length) return toast.error("Select at least one algorithm");
+    if (!selected.length) {
+      toast.error("Select at least one algorithm");
+      return;
+    }
     setRunning(true);
     setResults([]);
     await new Promise((r) => setTimeout(r, 40));
