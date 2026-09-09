@@ -14,7 +14,240 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      batches: {
+        Row: {
+          code: string
+          created_at: string
+          department: string
+          id: string
+          name: string
+          semester: number
+          strength: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          department?: string
+          id?: string
+          name: string
+          semester?: number
+          strength?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          department?: string
+          id?: string
+          name?: string
+          semester?: number
+          strength?: number
+        }
+        Relationships: []
+      }
+      constraints: {
+        Row: {
+          code: string
+          constraint_type: string
+          created_at: string
+          description: string | null
+          enabled: boolean
+          id: string
+          name: string
+          weight: number
+        }
+        Insert: {
+          code: string
+          constraint_type?: string
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          name: string
+          weight?: number
+        }
+        Update: {
+          code?: string
+          constraint_type?: string
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          name?: string
+          weight?: number
+        }
+        Relationships: []
+      }
+      faculty: {
+        Row: {
+          code: string
+          created_at: string
+          department: string
+          designation: string
+          email: string | null
+          id: string
+          max_hours_per_week: number
+          name: string
+          unavailable_slots: Json
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          department?: string
+          designation?: string
+          email?: string | null
+          id?: string
+          max_hours_per_week?: number
+          name: string
+          unavailable_slots?: Json
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          department?: string
+          designation?: string
+          email?: string | null
+          id?: string
+          max_hours_per_week?: number
+          name?: string
+          unavailable_slots?: Json
+        }
+        Relationships: []
+      }
+      rooms: {
+        Row: {
+          building: string
+          capacity: number
+          code: string
+          created_at: string
+          id: string
+          name: string
+          room_type: string
+        }
+        Insert: {
+          building?: string
+          capacity?: number
+          code: string
+          created_at?: string
+          id?: string
+          name: string
+          room_type?: string
+        }
+        Update: {
+          building?: string
+          capacity?: number
+          code?: string
+          created_at?: string
+          id?: string
+          name?: string
+          room_type?: string
+        }
+        Relationships: []
+      }
+      subjects: {
+        Row: {
+          batch_id: string | null
+          code: string
+          created_at: string
+          credits: number
+          faculty_id: string | null
+          hours_per_week: number
+          id: string
+          name: string
+          requires_lab: boolean
+          subject_type: string
+        }
+        Insert: {
+          batch_id?: string | null
+          code: string
+          created_at?: string
+          credits?: number
+          faculty_id?: string | null
+          hours_per_week?: number
+          id?: string
+          name: string
+          requires_lab?: boolean
+          subject_type?: string
+        }
+        Update: {
+          batch_id?: string | null
+          code?: string
+          created_at?: string
+          credits?: number
+          faculty_id?: string | null
+          hours_per_week?: number
+          id?: string
+          name?: string
+          requires_lab?: boolean
+          subject_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subjects_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subjects_faculty_id_fkey"
+            columns: ["faculty_id"]
+            isOneToOne: false
+            referencedRelation: "faculty"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timetables: {
+        Row: {
+          algorithm: string
+          created_at: string
+          entries: Json
+          execution_ms: number
+          fitness: number
+          hard_conflicts: number
+          id: string
+          iterations: number
+          metrics: Json
+          name: string
+          required_count: number
+          scheduled_count: number
+          soft_penalties: number
+          utilization: number
+        }
+        Insert: {
+          algorithm: string
+          created_at?: string
+          entries?: Json
+          execution_ms?: number
+          fitness?: number
+          hard_conflicts?: number
+          id?: string
+          iterations?: number
+          metrics?: Json
+          name: string
+          required_count?: number
+          scheduled_count?: number
+          soft_penalties?: number
+          utilization?: number
+        }
+        Update: {
+          algorithm?: string
+          created_at?: string
+          entries?: Json
+          execution_ms?: number
+          fitness?: number
+          hard_conflicts?: number
+          id?: string
+          iterations?: number
+          metrics?: Json
+          name?: string
+          required_count?: number
+          scheduled_count?: number
+          soft_penalties?: number
+          utilization?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
