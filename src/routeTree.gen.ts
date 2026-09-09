@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BatchesRouteImport } from './routes/batches'
+import { Route as ConstraintsRouteImport } from './routes/constraints'
 import { Route as FacultyRouteImport } from './routes/faculty'
 import { Route as RoomsRouteImport } from './routes/rooms'
+import { Route as SubjectsRouteImport } from './routes/subjects'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const BatchesRoute = BatchesRouteImport.update({
   id: '/batches',
   path: '/batches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConstraintsRoute = ConstraintsRouteImport.update({
+  id: '/constraints',
+  path: '/constraints',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FacultyRoute = FacultyRouteImport.update({
@@ -34,39 +41,60 @@ const RoomsRoute = RoomsRouteImport.update({
   path: '/rooms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SubjectsRoute = SubjectsRouteImport.update({
+  id: '/subjects',
+  path: '/subjects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/batches': typeof BatchesRoute
+  '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
   '/rooms': typeof RoomsRoute
+  '/subjects': typeof SubjectsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/batches': typeof BatchesRoute
+  '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
   '/rooms': typeof RoomsRoute
+  '/subjects': typeof SubjectsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/batches': typeof BatchesRoute
+  '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
   '/rooms': typeof RoomsRoute
+  '/subjects': typeof SubjectsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/batches' | '/faculty' | '/rooms'
+  fullPaths:
+    '/' | '/batches' | '/constraints' | '/faculty' | '/rooms' | '/subjects'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/batches' | '/faculty' | '/rooms'
-  id: '__root__' | '/' | '/batches' | '/faculty' | '/rooms'
+  to: '/' | '/batches' | '/constraints' | '/faculty' | '/rooms' | '/subjects'
+  id:
+    | '__root__'
+    | '/'
+    | '/batches'
+    | '/constraints'
+    | '/faculty'
+    | '/rooms'
+    | '/subjects'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BatchesRoute: typeof BatchesRoute
+  ConstraintsRoute: typeof ConstraintsRoute
   FacultyRoute: typeof FacultyRoute
   RoomsRoute: typeof RoomsRoute
+  SubjectsRoute: typeof SubjectsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,6 +113,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BatchesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/constraints': {
+      id: '/constraints'
+      path: '/constraints'
+      fullPath: '/constraints'
+      preLoaderRoute: typeof ConstraintsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faculty': {
       id: '/faculty'
       path: '/faculty'
@@ -99,14 +134,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoomsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/subjects': {
+      id: '/subjects'
+      path: '/subjects'
+      fullPath: '/subjects'
+      preLoaderRoute: typeof SubjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BatchesRoute: BatchesRoute,
+  ConstraintsRoute: ConstraintsRoute,
   FacultyRoute: FacultyRoute,
   RoomsRoute: RoomsRoute,
+  SubjectsRoute: SubjectsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
