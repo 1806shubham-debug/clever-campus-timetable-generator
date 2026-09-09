@@ -1,6 +1,9 @@
 import { queryOptions } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase as typedSupabase } from "@/integrations/supabase/client";
 import type { Batch, Constraint, Faculty, Room, Subject, Timetable } from "./types";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const supabase = typedSupabase as any;
 
 async function list<T>(table: string, order = "created_at"): Promise<T[]> {
   const { data, error } = await supabase.from(table).select("*").order(order, { ascending: true });
