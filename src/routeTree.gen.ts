@@ -13,8 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BatchesRouteImport } from './routes/batches'
 import { Route as ConstraintsRouteImport } from './routes/constraints'
 import { Route as FacultyRouteImport } from './routes/faculty'
+import { Route as GenerateRouteImport } from './routes/generate'
 import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as SubjectsRouteImport } from './routes/subjects'
+import { Route as TimetablesIndexRouteImport } from './routes/timetables.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,6 +38,11 @@ const FacultyRoute = FacultyRouteImport.update({
   path: '/faculty',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GenerateRoute = GenerateRouteImport.update({
+  id: '/generate',
+  path: '/generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RoomsRoute = RoomsRouteImport.update({
   id: '/rooms',
   path: '/rooms',
@@ -46,22 +53,31 @@ const SubjectsRoute = SubjectsRouteImport.update({
   path: '/subjects',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TimetablesIndexRoute = TimetablesIndexRouteImport.update({
+  id: '/timetables/',
+  path: '/timetables/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/batches': typeof BatchesRoute
   '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
+  '/generate': typeof GenerateRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
+  '/timetables/': typeof TimetablesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/batches': typeof BatchesRoute
   '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
+  '/generate': typeof GenerateRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
+  '/timetables': typeof TimetablesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,23 +85,42 @@ export interface FileRoutesById {
   '/batches': typeof BatchesRoute
   '/constraints': typeof ConstraintsRoute
   '/faculty': typeof FacultyRoute
+  '/generate': typeof GenerateRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
+  '/timetables/': typeof TimetablesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/batches' | '/constraints' | '/faculty' | '/rooms' | '/subjects'
+    | '/'
+    | '/batches'
+    | '/constraints'
+    | '/faculty'
+    | '/generate'
+    | '/rooms'
+    | '/subjects'
+    | '/timetables/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/batches' | '/constraints' | '/faculty' | '/rooms' | '/subjects'
+  to:
+    | '/'
+    | '/batches'
+    | '/constraints'
+    | '/faculty'
+    | '/generate'
+    | '/rooms'
+    | '/subjects'
+    | '/timetables'
   id:
     | '__root__'
     | '/'
     | '/batches'
     | '/constraints'
     | '/faculty'
+    | '/generate'
     | '/rooms'
     | '/subjects'
+    | '/timetables/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,8 +128,10 @@ export interface RootRouteChildren {
   BatchesRoute: typeof BatchesRoute
   ConstraintsRoute: typeof ConstraintsRoute
   FacultyRoute: typeof FacultyRoute
+  GenerateRoute: typeof GenerateRoute
   RoomsRoute: typeof RoomsRoute
   SubjectsRoute: typeof SubjectsRoute
+  TimetablesIndexRoute: typeof TimetablesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -127,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FacultyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/generate': {
+      id: '/generate'
+      path: '/generate'
+      fullPath: '/generate'
+      preLoaderRoute: typeof GenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rooms': {
       id: '/rooms'
       path: '/rooms'
@@ -141,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SubjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/timetables/': {
+      id: '/timetables/'
+      path: '/timetables'
+      fullPath: '/timetables/'
+      preLoaderRoute: typeof TimetablesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -149,8 +200,10 @@ const rootRouteChildren: RootRouteChildren = {
   BatchesRoute: BatchesRoute,
   ConstraintsRoute: ConstraintsRoute,
   FacultyRoute: FacultyRoute,
+  GenerateRoute: GenerateRoute,
   RoomsRoute: RoomsRoute,
   SubjectsRoute: SubjectsRoute,
+  TimetablesIndexRoute: TimetablesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
