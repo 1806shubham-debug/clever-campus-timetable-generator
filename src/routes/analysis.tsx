@@ -270,7 +270,11 @@ function AnalysisPage() {
                   series={aggregates.map((a) => ({
                     key: a.key,
                     color:
-                      a.key === "greedy" ? PALETTE.sun : a.key === "cobalt" ? PALETTE.cobalt : PALETTE.orchid,
+                      a.key === "greedy"
+                        ? PALETTE.sun
+                        : a.key === "backtracking"
+                          ? PALETTE.cobalt
+                          : PALETTE.orchid,
                   }))}
                 />
               </div>
