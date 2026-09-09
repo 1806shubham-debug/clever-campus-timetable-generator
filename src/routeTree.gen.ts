@@ -17,6 +17,7 @@ import { Route as GenerateRouteImport } from './routes/generate'
 import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as SubjectsRouteImport } from './routes/subjects'
 import { Route as TimetablesIndexRouteImport } from './routes/timetables.index'
+import { Route as TimetablesIdRouteImport } from './routes/timetables.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const TimetablesIndexRoute = TimetablesIndexRouteImport.update({
   path: '/timetables/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TimetablesIdRoute = TimetablesIdRouteImport.update({
+  id: '/timetables/$id',
+  path: '/timetables/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/generate': typeof GenerateRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
+  '/timetables/$id': typeof TimetablesIdRoute
   '/timetables/': typeof TimetablesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/generate': typeof GenerateRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
+  '/timetables/$id': typeof TimetablesIdRoute
   '/timetables': typeof TimetablesIndexRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/generate': typeof GenerateRoute
   '/rooms': typeof RoomsRoute
   '/subjects': typeof SubjectsRoute
+  '/timetables/$id': typeof TimetablesIdRoute
   '/timetables/': typeof TimetablesIndexRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/generate'
     | '/rooms'
     | '/subjects'
+    | '/timetables/$id'
     | '/timetables/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/generate'
     | '/rooms'
     | '/subjects'
+    | '/timetables/$id'
     | '/timetables'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/generate'
     | '/rooms'
     | '/subjects'
+    | '/timetables/$id'
     | '/timetables/'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   GenerateRoute: typeof GenerateRoute
   RoomsRoute: typeof RoomsRoute
   SubjectsRoute: typeof SubjectsRoute
+  TimetablesIdRoute: typeof TimetablesIdRoute
   TimetablesIndexRoute: typeof TimetablesIndexRoute
 }
 
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimetablesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/timetables/$id': {
+      id: '/timetables/$id'
+      path: '/timetables/$id'
+      fullPath: '/timetables/$id'
+      preLoaderRoute: typeof TimetablesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -203,6 +223,7 @@ const rootRouteChildren: RootRouteChildren = {
   GenerateRoute: GenerateRoute,
   RoomsRoute: RoomsRoute,
   SubjectsRoute: SubjectsRoute,
+  TimetablesIdRoute: TimetablesIdRoute,
   TimetablesIndexRoute: TimetablesIndexRoute,
 }
 export const routeTree = rootRouteImport
