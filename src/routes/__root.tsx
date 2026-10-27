@@ -90,7 +90,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "alternate icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -121,7 +122,10 @@ function RootComponent() {
       <AppShell>
         <Outlet />
       </AppShell>
-      <Toaster position="top-right" toastOptions={{ style: { borderRadius: 0, border: "2px solid #000" } }} />
+      <Toaster
+        position="top-right"
+        toastOptions={{ style: { borderRadius: 0, border: "2px solid #000" } }}
+      />
     </QueryClientProvider>
   );
 }

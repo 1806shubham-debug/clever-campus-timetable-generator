@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { CrudManager } from "@/components/CrudManager";
-import { PageHead, Tag } from "@/components/brutal";
+import { Loading, PageHead, Tag } from "@/components/brutal";
 import { batchesQuery, facultyQuery, subjectsQuery } from "@/lib/queries";
-import { Loading } from "./faculty";
 
 export const Route = createFileRoute("/subjects")({
   head: () => ({
@@ -14,7 +13,10 @@ export const Route = createFileRoute("/subjects")({
         content: "Courses with credits, weekly hours, assigned faculty and owning batch.",
       },
       { property: "og:title", content: "Subject Catalogue — Timetable OPT" },
-      { property: "og:description", content: "Courses with credits, weekly hours, faculty and batch." },
+      {
+        property: "og:description",
+        content: "Courses with credits, weekly hours, faculty and batch.",
+      },
     ],
   }),
   component: SubjectsPage,

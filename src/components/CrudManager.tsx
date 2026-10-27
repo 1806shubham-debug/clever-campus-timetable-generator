@@ -38,7 +38,9 @@ export function CrudManager({
 }) {
   const qc = useQueryClient();
   const blank = () =>
-    Object.fromEntries(fields.map((f) => [f.key, f.default ?? (f.type === "checkbox" ? false : "")]));
+    Object.fromEntries(
+      fields.map((f) => [f.key, f.default ?? (f.type === "checkbox" ? false : "")]),
+    );
   const [form, setForm] = useState<Record<string, unknown>>(blank());
   const [editing, setEditing] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -164,7 +166,7 @@ export function CrudManager({
         ) : null}
       </Panel>
 
-      <Panel title="Records" subtitle="Stored in Lovable Cloud">
+      <Panel title="Records" subtitle="Stored in Cloud Database">
         <DataTable head={[...head, "Actions"]}>
           {rows.map((row) => (
             <tr key={row.id} className="border-b-2 border-ink/10 last:border-b-0 hover:bg-sun/20">
@@ -191,7 +193,10 @@ export function CrudManager({
           ))}
           {rows.length === 0 ? (
             <tr>
-              <td colSpan={head.length + 1} className="px-3 py-6 text-center text-muted-foreground uppercase">
+              <td
+                colSpan={head.length + 1}
+                className="px-3 py-6 text-center text-muted-foreground uppercase"
+              >
                 No records yet
               </td>
             </tr>

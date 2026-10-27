@@ -78,7 +78,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="sticky top-0 z-40 flex items-center justify-between gap-3 border-b-2 border-ink bg-background px-4 py-3 lg:hidden">
             <div className="flex items-center gap-2">
-              <div className="brutal-border grid size-8 place-items-center bg-sun font-display text-sm">T</div>
+              <div className="brutal-border grid size-8 place-items-center bg-sun font-display text-sm">
+                T
+              </div>
               <span className="font-display text-sm uppercase">Timetable OPT</span>
             </div>
             <button
@@ -90,9 +92,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </button>
           </header>
 
-          {open ? (
-            <div className="border-b-2 border-ink bg-ink lg:hidden">{nav}</div>
-          ) : null}
+          {open ? <div className="border-b-2 border-ink bg-ink lg:hidden">{nav}</div> : null}
 
           <main className={cn("grid-paper min-w-0 flex-1 p-4 md:p-8")}>{children}</main>
         </div>

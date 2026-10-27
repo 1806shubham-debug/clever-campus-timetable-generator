@@ -1,4 +1,9 @@
-import type { ReactNode, ButtonHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes } from "react";
+import type {
+  ReactNode,
+  ButtonHTMLAttributes,
+  InputHTMLAttributes,
+  SelectHTMLAttributes,
+} from "react";
 import { cn } from "@/lib/utils";
 
 export function Panel({
@@ -28,7 +33,9 @@ export function Panel({
             : "";
   return (
     <section className={cn("brutal-border brutal-shadow bg-card", className)}>
-      {accent && accent !== "none" ? <div className={cn("h-2 border-b-2 border-ink", accentBar)} /> : null}
+      {accent && accent !== "none" ? (
+        <div className={cn("h-2 border-b-2 border-ink", accentBar)} />
+      ) : null}
       {title ? (
         <header className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-ink px-4 py-3">
           <div>
@@ -131,7 +138,9 @@ export function Stat({
             : "bg-card";
   return (
     <div className={cn("brutal-border brutal-shadow p-4", bg)}>
-      <p className="font-mono text-[10px] font-bold tracking-[0.15em] uppercase opacity-70">{label}</p>
+      <p className="font-mono text-[10px] font-bold tracking-[0.15em] uppercase opacity-70">
+        {label}
+      </p>
       <p className="mt-2 font-display text-3xl leading-none">
         {value}
         {unit ? <span className="ml-1 font-mono text-sm">{unit}</span> : null}
@@ -141,13 +150,7 @@ export function Stat({
   );
 }
 
-export function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
+export function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block">
       <span className="font-mono text-[10px] font-bold tracking-[0.15em] uppercase">{label}</span>
@@ -223,6 +226,14 @@ export function DataTable({ head, children }: { head: string[]; children: ReactN
         </thead>
         <tbody className="font-mono text-xs">{children}</tbody>
       </table>
+    </div>
+  );
+}
+
+export function Loading() {
+  return (
+    <div className="brutal-border brutal-shadow animate-pulse bg-card p-8 text-center font-mono text-xs uppercase">
+      Loading records…
     </div>
   );
 }

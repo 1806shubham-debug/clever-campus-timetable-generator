@@ -257,7 +257,9 @@ export function evaluate(
 function difficulty(l: Lesson, rooms: Room[], constraints: Constraint[]) {
   const feasibleRooms = rooms.filter((r) => roomOk(l, r, constraints)).length;
   const blocked = l.faculty
-    ? (Array.isArray(l.faculty.unavailable_slots) ? l.faculty.unavailable_slots.length : 0)
+    ? Array.isArray(l.faculty.unavailable_slots)
+      ? l.faculty.unavailable_slots.length
+      : 0
     : 0;
   return feasibleRooms * 100 - blocked;
 }
@@ -303,7 +305,8 @@ export function solveGreedy(input: SchedulerInput): SolveResult {
   const start = performance.now();
   const lessons = buildLessons(input);
   const ordered = [...lessons].sort(
-    (a, b) => difficulty(a, input.rooms, input.constraints) - difficulty(b, input.rooms, input.constraints),
+    (a, b) =>
+      difficulty(a, input.rooms, input.constraints) - difficulty(b, input.rooms, input.constraints),
   );
   const occ = freshOccupancy();
   const placed: Slotted[] = [];
@@ -316,7 +319,11 @@ export function solveGreedy(input: SchedulerInput): SolveResult {
       for (const room of input.rooms) {
         iterations++;
         if (!canPlace(occ, lesson, slot, room, input.constraints)) continue;
-        candidates.push({ slot, room, score: slotPreference(lesson, slot) * 10 + room.capacity / 100 });
+        candidates.push({
+          slot,
+          room,
+          score: slotPreference(lesson, slot) * 10 + room.capacity / 100,
+        });
       }
     }
     candidates.sort((a, b) => a.score - b.score);
@@ -353,7 +360,8 @@ export function solveBacktracking(input: SchedulerInput, nodeBudget = 400000): S
   let best = 0;
 
   const remaining = [...lessons].sort(
-    (a, b) => difficulty(a, input.rooms, input.constraints) - difficulty(b, input.rooms, input.constraints),
+    (a, b) =>
+      difficulty(a, input.rooms, input.constraints) - difficulty(b, input.rooms, input.constraints),
   );
 
   const options = (lesson: Lesson) => {
@@ -442,7 +450,10 @@ export function solveGenetic(
   }
 
   const feasibleRoomIdx = lessons.map((l) => {
-    const idx = rooms.map((r, i) => ({ r, i })).filter((x) => roomOk(l, x.r, input.constraints)).map((x) => x.i);
+    const idx = rooms
+      .map((r, i) => ({ r, i }))
+      .filter((x) => roomOk(l, x.r, input.constraints))
+      .map((x) => x.i);
     return idx.length ? idx : rooms.map((_, i) => i);
   });
 

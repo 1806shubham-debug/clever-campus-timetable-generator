@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Cpu } from "lucide-react";
-import { PageHead, Panel, Stat, Tag } from "@/components/brutal";
-import { ColoredBarBlock, PALETTE } from "@/components/Charts";
+import { Loading, PageHead, Panel, Stat, Tag } from "@/components/brutal";
+import { ColoredBarBlock } from "@/components/Charts";
+import { PALETTE } from "@/lib/palette";
 import { useCoreData } from "@/lib/useData";
 import { ALGORITHMS, buildLessons } from "@/lib/scheduler";
-import { Loading } from "./faculty";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,7 +18,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Dashboard — Intelligent College Timetable Optimization" },
       {
         property: "og:description",
-        content: "Manage scheduling data and compare Greedy, Backtracking and Genetic timetable optimizers.",
+        content:
+          "Manage scheduling data and compare Greedy, Backtracking and Genetic timetable optimizers.",
       },
     ],
   }),
@@ -68,14 +69,38 @@ function Dashboard() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat label="Faculty" value={data.faculty.length} tone="sun" hint="Teaching staff on record" />
-        <Stat label="Subjects" value={data.subjects.length} hint={`${lessons} weekly lesson units`} />
-        <Stat label="Rooms" value={data.rooms.length} tone="cobalt" hint={`${data.rooms.length * 35} room-slots`} />
-        <Stat label="Batches" value={data.batches.length} tone="orchid" hint="Independent class groups" />
+        <Stat
+          label="Faculty"
+          value={data.faculty.length}
+          tone="sun"
+          hint="Teaching staff on record"
+        />
+        <Stat
+          label="Subjects"
+          value={data.subjects.length}
+          hint={`${lessons} weekly lesson units`}
+        />
+        <Stat
+          label="Rooms"
+          value={data.rooms.length}
+          tone="cobalt"
+          hint={`${data.rooms.length * 35} room-slots`}
+        />
+        <Stat
+          label="Batches"
+          value={data.batches.length}
+          tone="orchid"
+          hint="Independent class groups"
+        />
       </div>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-3">
-        <Panel title="Best saved timetable" subtitle="Highest fitness across all runs" accent="sun" className="xl:col-span-1">
+        <Panel
+          title="Best saved timetable"
+          subtitle="Highest fitness across all runs"
+          accent="sun"
+          className="xl:col-span-1"
+        >
           <div className="p-4">
             {best ? (
               <>
@@ -108,7 +133,12 @@ function Dashboard() {
           </div>
         </Panel>
 
-        <Panel title="Average fitness by algorithm" subtitle="From saved runs" accent="cobalt" className="xl:col-span-2">
+        <Panel
+          title="Average fitness by algorithm"
+          subtitle="From saved runs"
+          accent="cobalt"
+          className="xl:col-span-2"
+        >
           <div className="p-4">
             <ColoredBarBlock
               data={byAlgo as unknown as Record<string, unknown>[]}
@@ -135,7 +165,10 @@ function Dashboard() {
         <Panel title="Recent runs" subtitle="Latest five optimizer executions" accent="signal">
           <ul className="divide-y-2 divide-ink/10">
             {data.timetables.slice(0, 5).map((t) => (
-              <li key={t.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+              <li
+                key={t.id}
+                className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
+              >
                 <div className="min-w-0">
                   <p className="truncate font-mono text-xs font-bold uppercase">
                     {ALGORITHMS.find((a) => a.key === t.algorithm)?.label}

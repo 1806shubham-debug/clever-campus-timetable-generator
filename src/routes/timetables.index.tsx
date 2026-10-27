@@ -2,16 +2,18 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Trash2, ArrowRight } from "lucide-react";
-import { DataTable, PageHead, Panel, Tag } from "@/components/brutal";
+import { DataTable, Loading, PageHead, Panel, Tag } from "@/components/brutal";
 import { deleteRow, timetablesQuery } from "@/lib/queries";
 import { ALGORITHMS } from "@/lib/scheduler";
-import { Loading } from "./faculty";
 
 export const Route = createFileRoute("/timetables/")({
   head: () => ({
     meta: [
       { title: "Saved Timetables — Timetable OPT" },
-      { name: "description", content: "Archive of generated timetables with fitness, conflicts and runtime." },
+      {
+        name: "description",
+        content: "Archive of generated timetables with fitness, conflicts and runtime.",
+      },
       { property: "og:title", content: "Saved Timetables — Timetable OPT" },
       { property: "og:description", content: "Archive of generated timetables and their metrics." },
     ],
@@ -47,7 +49,15 @@ function TimetablesPage() {
               <tr key={t.id} className="border-b-2 border-ink/10 hover:bg-sun/20">
                 <td className="px-3 py-2">{t.name}</td>
                 <td className="px-3 py-2">
-                  <Tag tone={t.algorithm === "genetic" ? "orchid" : t.algorithm === "greedy" ? "sun" : "cobalt"}>
+                  <Tag
+                    tone={
+                      t.algorithm === "genetic"
+                        ? "orchid"
+                        : t.algorithm === "greedy"
+                          ? "sun"
+                          : "cobalt"
+                    }
+                  >
                     {ALGORITHMS.find((a) => a.key === t.algorithm)?.label ?? t.algorithm}
                   </Tag>
                 </td>

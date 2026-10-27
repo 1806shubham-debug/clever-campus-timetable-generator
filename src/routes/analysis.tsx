@@ -2,8 +2,19 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { FlaskConical } from "lucide-react";
-import { Btn, DataTable, Field, PageHead, Panel, Stat, Tag, TextInput } from "@/components/brutal";
-import { ColoredBarBlock, LineChartBlock, PALETTE, RadarBlock } from "@/components/Charts";
+import {
+  Btn,
+  DataTable,
+  Field,
+  Loading,
+  PageHead,
+  Panel,
+  Stat,
+  Tag,
+  TextInput,
+} from "@/components/brutal";
+import { ColoredBarBlock, LineChartBlock, RadarBlock } from "@/components/Charts";
+import { PALETTE } from "@/lib/palette";
 import { useCoreData } from "@/lib/useData";
 import {
   ALGORITHMS,
@@ -13,7 +24,6 @@ import {
   type AlgorithmKey,
   type SolveResult,
 } from "@/lib/scheduler";
-import { Loading } from "./faculty";
 
 export const Route = createFileRoute("/analysis")({
   head: () => ({
@@ -24,7 +34,10 @@ export const Route = createFileRoute("/analysis")({
         content: "Benchmark Greedy, Backtracking and Genetic schedulers across repeated trials.",
       },
       { property: "og:title", content: "Algorithm Analysis — Timetable OPT" },
-      { property: "og:description", content: "Repeated-trial benchmarking of three timetable optimizers." },
+      {
+        property: "og:description",
+        content: "Repeated-trial benchmarking of three timetable optimizers.",
+      },
     ],
   }),
   component: AnalysisPage,
@@ -84,7 +97,8 @@ function AnalysisPage() {
         bestFitness: Math.max(...fits),
         worstFitness: Math.min(...fits),
         stdDev: Math.round(Math.sqrt(variance) * 100) / 100,
-        avgConflicts: Math.round((runs.reduce((a, r) => a + r.hardConflicts, 0) / runs.length) * 10) / 10,
+        avgConflicts:
+          Math.round((runs.reduce((a, r) => a + r.hardConflicts, 0) / runs.length) * 10) / 10,
         avgMs: Math.round((runs.reduce((a, r) => a + r.executionMs, 0) / runs.length) * 100) / 100,
         avgPlaced: Math.round(runs.reduce((a, r) => a + r.scheduled, 0) / runs.length),
         required: runs[0]?.required ?? 0,
@@ -124,9 +138,7 @@ function AnalysisPage() {
           ...Object.fromEntries(
             aggregates.map((a) => [
               a.key,
-              Math.round(
-                (1 - a.avgMs / Math.max(...aggregates.map((x) => x.avgMs || 1))) * 100,
-              ),
+              Math.round((1 - a.avgMs / Math.max(...aggregates.map((x) => x.avgMs || 1))) * 100),
             ]),
           ),
         },
@@ -139,7 +151,10 @@ function AnalysisPage() {
         {
           metric: "Coverage",
           ...Object.fromEntries(
-            aggregates.map((a) => [a.key, Math.round((a.avgPlaced / Math.max(1, a.required)) * 100)]),
+            aggregates.map((a) => [
+              a.key,
+              Math.round((a.avgPlaced / Math.max(1, a.required)) * 100),
+            ]),
           ),
         },
         {
@@ -159,7 +174,11 @@ function AnalysisPage() {
           <div className="flex items-end gap-2">
             <div className="w-24">
               <Field label="Trials">
-                <TextInput type="number" value={trials} onChange={(e) => setTrials(Number(e.target.value) || 1)} />
+                <TextInput
+                  type="number"
+                  value={trials}
+                  onChange={(e) => setTrials(Number(e.target.value) || 1)}
+                />
               </Field>
             </div>
             <Btn variant="cobalt" onClick={runBenchmark} disabled={running}>
@@ -170,10 +189,15 @@ function AnalysisPage() {
       />
 
       {aggregates.length === 0 ? (
-        <Panel title="No benchmark data" subtitle="Run the benchmark to populate this page" accent="sun">
+        <Panel
+          title="No benchmark data"
+          subtitle="Run the benchmark to populate this page"
+          accent="sun"
+        >
           <p className="p-6 font-mono text-xs text-muted-foreground uppercase">
-            Each trial re-solves the current dataset from scratch. Greedy and CSP are deterministic; the genetic
-            algorithm is stochastic, so its spread across trials is the interesting signal.
+            Each trial re-solves the current dataset from scratch. Greedy and CSP are deterministic;
+            the genetic algorithm is stochastic, so its spread across trials is the interesting
+            signal.
           </p>
         </Panel>
       ) : (
@@ -181,7 +205,9 @@ function AnalysisPage() {
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <Stat
               label="Highest average fitness"
-              value={[...aggregates].sort((a, b) => b.avgFitness - a.avgFitness)[0]!.label.split(" ")[0]!}
+              value={
+                [...aggregates].sort((a, b) => b.avgFitness - a.avgFitness)[0]!.label.split(" ")[0]!
+              }
               tone="sun"
             />
             <Stat
@@ -191,7 +217,11 @@ function AnalysisPage() {
             />
             <Stat
               label="Most feasible"
-              value={[...aggregates].sort((a, b) => a.avgConflicts - b.avgConflicts)[0]!.label.split(" ")[0]!}
+              value={
+                [...aggregates]
+                  .sort((a, b) => a.avgConflicts - b.avgConflicts)[0]!
+                  .label.split(" ")[0]!
+              }
               tone="orchid"
             />
             <Stat label="Trials per algorithm" value={trials} />
@@ -233,7 +263,10 @@ function AnalysisPage() {
             <Panel title="Average fitness" subtitle="Higher is better" accent="sun">
               <div className="p-4">
                 <ColoredBarBlock
-                  data={aggregates.map((a) => ({ name: a.label.split(" ")[0], value: a.avgFitness }))}
+                  data={aggregates.map((a) => ({
+                    name: a.label.split(" ")[0],
+                    value: a.avgFitness,
+                  }))}
                   xKey="name"
                   yKey="value"
                   colors={[PALETTE.sun, PALETTE.cobalt, PALETTE.orchid]}
@@ -250,7 +283,11 @@ function AnalysisPage() {
                 />
               </div>
             </Panel>
-            <Panel title="Convergence profile" subtitle="Normalised search progress" accent="cobalt">
+            <Panel
+              title="Convergence profile"
+              subtitle="Normalised search progress"
+              accent="cobalt"
+            >
               <div className="p-4">
                 <LineChartBlock
                   data={convergence}
@@ -263,7 +300,11 @@ function AnalysisPage() {
                 />
               </div>
             </Panel>
-            <Panel title="Multi-criteria profile" subtitle="Normalised 0-100 across five axes" accent="orchid">
+            <Panel
+              title="Multi-criteria profile"
+              subtitle="Normalised 0-100 across five axes"
+              accent="orchid"
+            >
               <div className="p-4">
                 <RadarBlock
                   data={radar}

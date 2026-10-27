@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { DataTable, PageHead, Panel, Stat, Tag } from "@/components/brutal";
-import { ColoredBarBlock, PALETTE } from "@/components/Charts";
+import { DataTable, Loading, PageHead, Panel, Stat, Tag } from "@/components/brutal";
+import { ColoredBarBlock } from "@/components/Charts";
+import { PALETTE } from "@/lib/palette";
 import { useCoreData } from "@/lib/useData";
 import { ALGORITHMS } from "@/lib/scheduler";
-import { Loading } from "./faculty";
 
 export const Route = createFileRoute("/research")({
   head: () => ({
@@ -15,7 +15,10 @@ export const Route = createFileRoute("/research")({
           "Methodology, complexity analysis and empirical findings for greedy, backtracking and genetic timetable scheduling.",
       },
       { property: "og:title", content: "Research Report — Timetable OPT" },
-      { property: "og:description", content: "Methodology, complexity and findings for timetable optimization." },
+      {
+        property: "og:description",
+        content: "Methodology, complexity and findings for timetable optimization.",
+      },
     ],
   }),
   component: ResearchPage,
@@ -76,7 +79,10 @@ function ResearchPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat label="Saved experiments" value={saved.length} tone="sun" />
-        <Stat label="Decision variables" value={data.subjects.reduce((s, x) => s + x.hours_per_week, 0)} />
+        <Stat
+          label="Decision variables"
+          value={data.subjects.reduce((s, x) => s + x.hours_per_week, 0)}
+        />
         <Stat label="Search space slots" value={data.rooms.length * 35} tone="cobalt" />
         <Stat
           label="Constraints modelled"
@@ -90,19 +96,22 @@ function ResearchPage() {
         <Panel title="1 · Problem formulation" accent="sun" className="xl:col-span-2">
           <div className="space-y-3 p-5 text-sm leading-relaxed">
             <p>
-              University course timetabling is modelled here as a constraint satisfaction and optimisation
-              problem. Every subject contributes one lesson unit per weekly contact hour; each unit must be
-              assigned a time slot from a 5-day × 7-period grid and a room from the inventory.
+              University course timetabling is modelled here as a constraint satisfaction and
+              optimisation problem. Every subject contributes one lesson unit per weekly contact
+              hour; each unit must be assigned a time slot from a 5-day × 7-period grid and a room
+              from the inventory.
             </p>
             <p>
-              A candidate solution is a complete mapping <em>lesson → (slot, room)</em>. Hard constraints define
-              feasibility: no faculty, room or batch may be double-booked, labs require lab rooms, room capacity
-              must cover batch strength, and faculty availability blocks are absolute.
+              A candidate solution is a complete mapping <em>lesson → (slot, room)</em>. Hard
+              constraints define feasibility: no faculty, room or batch may be double-booked, labs
+              require lab rooms, room capacity must cover batch strength, and faculty availability
+              blocks are absolute.
             </p>
             <p>
-              Soft constraints shape quality: weekly load ceilings, idle gaps for students, spreading a subject
-              across the week, and a preference for morning theory sessions. Each carries an editable weight, so
-              the objective function can be re-tuned without touching the solvers.
+              Soft constraints shape quality: weekly load ceilings, idle gaps for students,
+              spreading a subject across the week, and a preference for morning theory sessions.
+              Each carries an editable weight, so the objective function can be re-tuned without
+              touching the solvers.
             </p>
           </div>
         </Panel>
@@ -113,8 +122,8 @@ function ResearchPage() {
               fitness = 100 · (placed / required) − 5 · hard − min(35, soft / required)
             </p>
             <p className="text-muted-foreground">
-              Scores are clamped to 0–100. Hard violations dominate; soft penalties are normalised by instance
-              size so results stay comparable across datasets.
+              Scores are clamped to 0–100. Hard violations dominate; soft penalties are normalised
+              by instance size so results stay comparable across datasets.
             </p>
           </div>
         </Panel>
@@ -122,7 +131,9 @@ function ResearchPage() {
 
       <div className="mt-6 space-y-6">
         <Panel title="3 · Algorithms and complexity" accent="orchid">
-          <DataTable head={["Algorithm", "Time", "Space", "Completeness", "Optimality", "Behaviour"]}>
+          <DataTable
+            head={["Algorithm", "Time", "Space", "Completeness", "Optimality", "Behaviour"]}
+          >
             {COMPLEXITY.map((c) => (
               <tr key={c.algo} className="border-b-2 border-ink/10 align-top">
                 <td className="px-3 py-2 font-bold uppercase">{c.algo}</td>
@@ -135,13 +146,17 @@ function ResearchPage() {
             ))}
           </DataTable>
           <p className="border-t-2 border-ink/10 px-4 py-3 font-mono text-[10px] uppercase">
-            L = lesson units · S = time slots · R = rooms · b = branching factor · d = depth · G = generations · P
-            = population
+            L = lesson units · S = time slots · R = rooms · b = branching factor · d = depth · G =
+            generations · P = population
           </p>
         </Panel>
 
         <div className="grid gap-6 xl:grid-cols-2">
-          <Panel title="4 · Empirical results" subtitle="Averaged over saved experiments" accent="signal">
+          <Panel
+            title="4 · Empirical results"
+            subtitle="Averaged over saved experiments"
+            accent="signal"
+          >
             <DataTable head={["Algorithm", "Runs", "Avg fitness", "Avg conflicts", "Avg runtime"]}>
               {perAlgo.map((p) => (
                 <tr key={p.label} className="border-b-2 border-ink/10">
@@ -174,25 +189,26 @@ function ResearchPage() {
             <div>
               <h3 className="text-sm">Findings</h3>
               <p className="mt-2 text-muted-foreground">
-                Greedy placement is effectively instantaneous and usually feasible, but leaves gaps and late
-                theory slots untouched. Backtracking recovers the placements greedy loses at a visible cost in
-                explored nodes. The genetic algorithm produces the smoothest student timetables once given
-                enough generations, at the highest runtime.
+                Greedy placement is effectively instantaneous and usually feasible, but leaves gaps
+                and late theory slots untouched. Backtracking recovers the placements greedy loses
+                at a visible cost in explored nodes. The genetic algorithm produces the smoothest
+                student timetables once given enough generations, at the highest runtime.
               </p>
             </div>
             <div>
               <h3 className="text-sm">Threats to validity</h3>
               <p className="mt-2 text-muted-foreground">
-                Results depend on a single institution-scale instance and on weights chosen by the operator.
-                Runtimes are measured in the browser, so they reflect relative rather than absolute cost.
+                Results depend on a single institution-scale instance and on weights chosen by the
+                operator. Runtimes are measured in the browser, so they reflect relative rather than
+                absolute cost.
               </p>
             </div>
             <div>
               <h3 className="text-sm">Future work</h3>
               <p className="mt-2 text-muted-foreground">
-                Hybridise GA with a local-repair operator, add simulated annealing and tabu search baselines,
-                support multi-campus room travel time, and run statistical significance tests over larger trial
-                counts.
+                Hybridise GA with a local-repair operator, add simulated annealing and tabu search
+                baselines, support multi-campus room travel time, and run statistical significance
+                tests over larger trial counts.
               </p>
             </div>
           </div>

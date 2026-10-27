@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { CrudManager } from "@/components/CrudManager";
-import { Btn, PageHead, Panel, SelectInput, Tag } from "@/components/brutal";
+import { Btn, Loading, PageHead, Panel, SelectInput, Tag } from "@/components/brutal";
 import { facultyQuery, updateRow } from "@/lib/queries";
 import { DAY_SHORT, PERIODS } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -12,16 +12,27 @@ export const Route = createFileRoute("/faculty")({
   head: () => ({
     meta: [
       { title: "Faculty Registry — Timetable OPT" },
-      { name: "description", content: "Manage faculty members, teaching loads and weekly availability." },
+      {
+        name: "description",
+        content: "Manage faculty members, teaching loads and weekly availability.",
+      },
       { property: "og:title", content: "Faculty Registry — Timetable OPT" },
-      { property: "og:description", content: "Manage faculty members, loads and weekly availability." },
+      {
+        property: "og:description",
+        content: "Manage faculty members, loads and weekly availability.",
+      },
     ],
   }),
   component: FacultyPage,
 });
 
 const DEPTS = ["CSE", "IT", "ECE", "EEE", "MECH", "CIVIL"];
-const DESIGNATIONS = ["Professor", "Associate Professor", "Assistant Professor", "Visiting Faculty"];
+const DESIGNATIONS = [
+  "Professor",
+  "Associate Professor",
+  "Assistant Professor",
+  "Visiting Faculty",
+];
 
 function FacultyPage() {
   const { data: faculty = [], isLoading } = useQuery(facultyQuery);
@@ -180,13 +191,5 @@ function AvailabilityEditor() {
         </div>
       </div>
     </Panel>
-  );
-}
-
-export function Loading() {
-  return (
-    <div className="brutal-border brutal-shadow animate-pulse bg-card p-8 text-center font-mono text-xs uppercase">
-      Loading records…
-    </div>
   );
 }

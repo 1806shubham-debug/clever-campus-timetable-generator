@@ -11,7 +11,14 @@ import type { Batch, Constraint, Faculty, Room, Subject, Timetable } from "./typ
 
 export function useCoreData() {
   const results = useQueries({
-    queries: [facultyQuery, roomsQuery, batchesQuery, subjectsQuery, constraintsQuery, timetablesQuery],
+    queries: [
+      facultyQuery,
+      roomsQuery,
+      batchesQuery,
+      subjectsQuery,
+      constraintsQuery,
+      timetablesQuery,
+    ],
   });
   const [f, r, b, s, c, t] = results;
   return {

@@ -36,5 +36,23 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  {
+    files: ["src/integrations/supabase/previewAuthStorage.ts"],
+    rules: {
+      "prefer-const": "off",
+    },
+  },
+  {
+    files: ["src/components/ui/**/*.{ts,tsx}"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
   eslintPluginPrettier,
+  {
+    files: ["src/integrations/supabase/**/*.{ts,tsx}"],
+    rules: {
+      "prettier/prettier": "off",
+    },
+  },
 );

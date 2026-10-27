@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Play, Save, Zap } from "lucide-react";
-import { Btn, Field, PageHead, Panel, Stat, Tag, TextInput } from "@/components/brutal";
+import { Btn, Field, Loading, PageHead, Panel, Stat, Tag, TextInput } from "@/components/brutal";
 import { TimetableGrid } from "@/components/TimetableGrid";
 import { useCoreData } from "@/lib/useData";
 import { insertRow } from "@/lib/queries";
@@ -17,7 +17,6 @@ import {
   type SolveResult,
 } from "@/lib/scheduler";
 import { cn } from "@/lib/utils";
-import { Loading } from "./faculty";
 
 export const Route = createFileRoute("/generate")({
   head: () => ({
@@ -25,10 +24,14 @@ export const Route = createFileRoute("/generate")({
       { title: "Timetable Generator — Timetable OPT" },
       {
         name: "description",
-        content: "Run Greedy, Backtracking and Genetic optimizers and compare fitness, conflicts and runtime.",
+        content:
+          "Run Greedy, Backtracking and Genetic optimizers and compare fitness, conflicts and runtime.",
       },
       { property: "og:title", content: "Timetable Generator — Timetable OPT" },
-      { property: "og:description", content: "Run and compare three scheduling optimizers side by side." },
+      {
+        property: "og:description",
+        content: "Run and compare three scheduling optimizers side by side.",
+      },
     ],
   }),
   component: GeneratePage,
@@ -69,9 +72,7 @@ function GeneratePage() {
       if (algo === "greedy") out.push(solveGreedy(input));
       if (algo === "backtracking") out.push(solveBacktracking(input));
       if (algo === "genetic")
-        out.push(
-          solveGenetic(input, { population, generations, mutationRate: mutation / 100 }),
-        );
+        out.push(solveGenetic(input, { population, generations, mutationRate: mutation / 100 }));
       setResults([...out]);
       await new Promise((r) => setTimeout(r, 20));
     }
@@ -139,7 +140,11 @@ function GeneratePage() {
           </div>
 
           <div className="grid gap-6 xl:grid-cols-3">
-            <Panel title="Algorithm selection" subtitle="Toggle which solvers to execute" accent="sun">
+            <Panel
+              title="Algorithm selection"
+              subtitle="Toggle which solvers to execute"
+              accent="sun"
+            >
               <ul className="divide-y-2 divide-ink/10">
                 {ALGORITHMS.map((a) => {
                   const on = selected.includes(a.key);
@@ -163,8 +168,12 @@ function GeneratePage() {
                           {on ? "✓" : ""}
                         </span>
                         <span className="min-w-0">
-                          <span className="block font-mono text-xs font-bold uppercase">{a.label}</span>
-                          <span className="mt-1 block text-xs text-muted-foreground">{a.blurb}</span>
+                          <span className="block font-mono text-xs font-bold uppercase">
+                            {a.label}
+                          </span>
+                          <span className="mt-1 block text-xs text-muted-foreground">
+                            {a.blurb}
+                          </span>
                         </span>
                       </button>
                     </li>
@@ -173,7 +182,11 @@ function GeneratePage() {
               </ul>
             </Panel>
 
-            <Panel title="Genetic parameters" subtitle="Applies to the GA solver only" accent="orchid">
+            <Panel
+              title="Genetic parameters"
+              subtitle="Applies to the GA solver only"
+              accent="orchid"
+            >
               <div className="grid gap-4 p-4 sm:grid-cols-3 xl:grid-cols-1">
                 <Field label="Population size">
                   <TextInput
@@ -239,18 +252,32 @@ function GeneratePage() {
           </div>
 
           {results.length > 1 ? (
-            <Panel title="Comparison matrix" subtitle="Same instance, three search strategies" accent="signal">
+            <Panel
+              title="Comparison matrix"
+              subtitle="Same instance, three search strategies"
+              accent="signal"
+            >
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
                     <tr className="bg-ink text-paper">
-                      {["Algorithm", "Fitness", "Hard conflicts", "Soft penalty", "Placed", "Runtime", "Iterations", "Room utilisation"].map(
-                        (h) => (
-                          <th key={h} className="px-3 py-2 font-mono text-[10px] tracking-wider uppercase">
-                            {h}
-                          </th>
-                        ),
-                      )}
+                      {[
+                        "Algorithm",
+                        "Fitness",
+                        "Hard conflicts",
+                        "Soft penalty",
+                        "Placed",
+                        "Runtime",
+                        "Iterations",
+                        "Room utilisation",
+                      ].map((h) => (
+                        <th
+                          key={h}
+                          className="px-3 py-2 font-mono text-[10px] tracking-wider uppercase"
+                        >
+                          {h}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody className="font-mono text-xs">

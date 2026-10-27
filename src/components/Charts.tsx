@@ -58,10 +58,23 @@ export function BarChartBlock({
           <YAxis {...axis} />
           <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "#00000010" }} />
           {bars.length > 1 ? (
-            <Legend wrapperStyle={{ fontFamily: "IBM Plex Mono", fontSize: 10, textTransform: "uppercase" }} />
+            <Legend
+              wrapperStyle={{
+                fontFamily: "IBM Plex Mono",
+                fontSize: 10,
+                textTransform: "uppercase",
+              }}
+            />
           ) : null}
           {bars.map((b) => (
-            <Bar key={b.key} dataKey={b.key} name={b.name ?? b.key} fill={b.color} stroke="#000" strokeWidth={2} />
+            <Bar
+              key={b.key}
+              dataKey={b.key}
+              name={b.name ?? b.key}
+              fill={b.color}
+              stroke="#000"
+              strokeWidth={2}
+            />
           ))}
         </BarChart>
       </ResponsiveContainer>
@@ -120,7 +133,9 @@ export function LineChartBlock({
           <XAxis dataKey={xKey} {...axis} />
           <YAxis {...axis} domain={[0, 100]} />
           <Tooltip contentStyle={tooltipStyle} />
-          <Legend wrapperStyle={{ fontFamily: "IBM Plex Mono", fontSize: 10, textTransform: "uppercase" }} />
+          <Legend
+            wrapperStyle={{ fontFamily: "IBM Plex Mono", fontSize: 10, textTransform: "uppercase" }}
+          />
           {lines.map((l) => (
             <Line
               key={l.key}
@@ -158,7 +173,9 @@ export function RadarBlock({
             tick={{ fontFamily: "IBM Plex Mono, monospace", fontSize: 10, fill: "#000" }}
           />
           <Tooltip contentStyle={tooltipStyle} />
-          <Legend wrapperStyle={{ fontFamily: "IBM Plex Mono", fontSize: 10, textTransform: "uppercase" }} />
+          <Legend
+            wrapperStyle={{ fontFamily: "IBM Plex Mono", fontSize: 10, textTransform: "uppercase" }}
+          />
           {series.map((s) => (
             <Radar
               key={s.key}
@@ -174,12 +191,3 @@ export function RadarBlock({
     </ClientOnly>
   );
 }
-
-export const PALETTE = {
-  sun: "#FFCC00",
-  cobalt: "#2F4BFF",
-  signal: "#FF3B30",
-  orchid: "#8B5CF6",
-  mint: "#3ED9A4",
-  ink: "#000000",
-};

@@ -47,7 +47,11 @@ export function timetableQuery(id: string) {
   return queryOptions({
     queryKey: ["timetable", id],
     queryFn: async () => {
-      const { data, error } = await supabase.from("timetables").select("*").eq("id", id).maybeSingle();
+      const { data, error } = await supabase
+        .from("timetables")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
       if (error) throw new Error(error.message);
       return (data ?? null) as unknown as Timetable | null;
     },

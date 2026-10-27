@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { PageHead, Panel, Tag, TextInput } from "@/components/brutal";
+import { Loading, PageHead, Panel, Tag, TextInput } from "@/components/brutal";
 import { constraintsQuery, updateRow } from "@/lib/queries";
-import { Loading } from "./faculty";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/constraints")({
@@ -12,10 +11,14 @@ export const Route = createFileRoute("/constraints")({
       { title: "Constraint Model — Timetable OPT" },
       {
         name: "description",
-        content: "Hard and soft scheduling constraints with tunable weights used by the fitness function.",
+        content:
+          "Hard and soft scheduling constraints with tunable weights used by the fitness function.",
       },
       { property: "og:title", content: "Constraint Model — Timetable OPT" },
-      { property: "og:description", content: "Hard and soft constraints with tunable fitness weights." },
+      {
+        property: "og:description",
+        content: "Hard and soft constraints with tunable fitness weights.",
+      },
     ],
   }),
   component: ConstraintsPage,
@@ -81,7 +84,14 @@ function Group({
   title: string;
   subtitle: string;
   accent: "signal" | "orchid";
-  items: { id: string; name: string; code: string; weight: number; enabled: boolean; description: string | null }[];
+  items: {
+    id: string;
+    name: string;
+    code: string;
+    weight: number;
+    enabled: boolean;
+    description: string | null;
+  }[];
   onToggle: (id: string, enabled: boolean) => void;
   onWeight: (id: string, weight: number) => void;
 }) {

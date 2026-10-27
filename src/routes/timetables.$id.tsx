@@ -2,21 +2,27 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { ArrowLeft, Download } from "lucide-react";
-import { Btn, PageHead, Panel, SelectInput, Stat, Tag } from "@/components/brutal";
+import { Btn, Loading, PageHead, Panel, SelectInput, Stat, Tag } from "@/components/brutal";
 import { TimetableGrid } from "@/components/TimetableGrid";
-import { BarChartBlock, ColoredBarBlock, LineChartBlock, PALETTE } from "@/components/Charts";
+import { BarChartBlock, ColoredBarBlock, LineChartBlock } from "@/components/Charts";
+import { PALETTE } from "@/lib/palette";
 import { timetableQuery } from "@/lib/queries";
 import { ALGORITHMS } from "@/lib/scheduler";
 import { DAY_SHORT, PERIODS, type Assignment } from "@/lib/types";
-import { Loading } from "./faculty";
 
 export const Route = createFileRoute("/timetables/$id")({
   head: () => ({
     meta: [
       { title: "Timetable Viewer — Timetable OPT" },
-      { name: "description", content: "Inspect a generated timetable by batch, faculty or room with metrics." },
+      {
+        name: "description",
+        content: "Inspect a generated timetable by batch, faculty or room with metrics.",
+      },
       { property: "og:title", content: "Timetable Viewer — Timetable OPT" },
-      { property: "og:description", content: "Inspect a generated timetable and its quality metrics." },
+      {
+        property: "og:description",
+        content: "Inspect a generated timetable and its quality metrics.",
+      },
     ],
   }),
   component: TimetableDetail,
@@ -69,14 +75,24 @@ function TimetableDetail() {
     return (
       <div>
         <PageHead eyebrow="Optimization / 02" title="Timetable not found" />
-        <Link to="/timetables" className="brutal-border inline-flex bg-ink px-4 py-2 font-mono text-xs text-paper uppercase">
+        <Link
+          to="/timetables"
+          className="brutal-border inline-flex bg-ink px-4 py-2 font-mono text-xs text-paper uppercase"
+        >
           Back to archive
         </Link>
       </div>
     );
 
   const label = ALGORITHMS.find((a) => a.key === timetable.algorithm)?.label ?? timetable.algorithm;
-  const metrics = timetable.metrics ?? { hardBreakdown: {}, softBreakdown: {}, convergence: [], facultyLoad: [], roomUsage: [], dayLoad: [] };
+  const metrics = timetable.metrics ?? {
+    hardBreakdown: {},
+    softBreakdown: {},
+    convergence: [],
+    facultyLoad: [],
+    roomUsage: [],
+    dayLoad: [],
+  };
 
   return (
     <div>
@@ -134,7 +150,11 @@ function TimetableDetail() {
                 <option value="faculty">By faculty</option>
                 <option value="room">By room</option>
               </SelectInput>
-              <SelectInput className="w-40" value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <SelectInput
+                className="w-40"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              >
                 <option value="all">All</option>
                 {options.map((o) => (
                   <option key={o} value={o}>
@@ -186,7 +206,11 @@ function TimetableDetail() {
             </div>
           </Panel>
 
-          <Panel title="Search convergence" subtitle="Fitness / completion over iterations" accent="signal">
+          <Panel
+            title="Search convergence"
+            subtitle="Fitness / completion over iterations"
+            accent="signal"
+          >
             <div className="p-4">
               <LineChartBlock
                 data={metrics.convergence as unknown as Record<string, unknown>[]}

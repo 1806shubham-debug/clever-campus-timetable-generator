@@ -1,15 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { CrudManager } from "@/components/CrudManager";
-import { PageHead, Tag } from "@/components/brutal";
+import { Loading, PageHead, Tag } from "@/components/brutal";
 import { batchesQuery } from "@/lib/queries";
-import { Loading } from "./faculty";
 
 export const Route = createFileRoute("/batches")({
   head: () => ({
     meta: [
       { title: "Student Batches — Timetable OPT" },
-      { name: "description", content: "Departments, semesters and class strengths that must be scheduled." },
+      {
+        name: "description",
+        content: "Departments, semesters and class strengths that must be scheduled.",
+      },
       { property: "og:title", content: "Student Batches — Timetable OPT" },
       { property: "og:description", content: "Departments, semesters and class strengths." },
     ],
